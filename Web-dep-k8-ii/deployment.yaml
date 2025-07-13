@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-dep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-app
+      tier: backend
+  template:
+    metadata: 
+      labels:
+        app: node-app
+        tier: backend
+    spec: 
+      containers:
+        - name: second-cont
+          image: successtech/k8-app:1
+        # - name: ...
+        #   image: ...
