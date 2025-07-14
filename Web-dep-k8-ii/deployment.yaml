@@ -2,12 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-app-dep
+  labels:
+    group: example
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: node-app
-      tier: backend
+    app: node-app
+    tier: backend
+    # alternatively
+    # matchExpressions:
+    #   - {key: app, operator: In, values: [node-app, webapp]}
   template:
     metadata: 
       labels:
@@ -17,5 +22,12 @@ spec:
       containers:
         - name: second-cont
           image: successtech/k8-app:1
+          imagePullPolicy: Always
+          livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 10
+          initialDelay: 5
         # - name: ...
         #   image: ...
